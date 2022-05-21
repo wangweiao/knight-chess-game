@@ -17,7 +17,7 @@ import org.tinylog.Logger;
 
 public class OpeningController {
 
-    private FXMLLoader fxmlLoader = new FXMLLoader();;
+    private FXMLLoader fxmlLoader = new FXMLLoader();
 
     @FXML
     private TextField firstPlayerNameTextField;
@@ -36,7 +36,10 @@ public class OpeningController {
             Parent root = fxmlLoader.load();
             fxmlLoader.<GameController>getController().setPlayerName(firstPlayerNameTextField.getText());
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/css/ui.css").toExternalForm());
+            stage.setScene(scene);
+            fxmlLoader.<GameController>getController().initialization();
             stage.show();
             Logger.info("The user's name is set to {}, loading game scene", firstPlayerNameTextField.getText());
         }

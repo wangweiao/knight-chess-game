@@ -12,10 +12,12 @@ import static javafx.scene.media.AudioClip.INDEFINITE;
 
 public class GameApplication extends Application {
 
+    public static AudioClip audioClip;
+
     @Override
     public void start(Stage stage) throws Exception {
         Logger.info("The application has started.");
-        AudioClip audioClip = new AudioClip(getClass().getResource("/music.wav").toString());
+        audioClip = new AudioClip(getClass().getResource("/media/music.wav").toString());
         audioClip.setCycleCount(INDEFINITE);
         audioClip.play();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/opening.fxml"));

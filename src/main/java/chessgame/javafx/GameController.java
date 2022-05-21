@@ -1,5 +1,6 @@
 package chessgame.javafx;
 
+import chessgame.state.GameState;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,13 +32,40 @@ public class GameController {
     @FXML
     private GridPane grid;
 
+    private GameState state = new GameState();
+
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 
-    public void initialize() {
+    public void initialization() {
+        Logger.info("Board initialization initiated.");
+        state = new GameState();
+        loadImages();
+        populateGrid();
+    }
 
+    private void populateGrid() {
+        for (var row = 0; row < grid.getRowCount(); row++) {
+            for (var col = 0; col < grid.getColumnCount(); col++) {
+                var Cell = createCell(row, col);
+                grid.add(Cell, col, row);
+            }
+        }
+    }
 
+    private StackPane createCell(int row, int col) {
+        var cell = new StackPane();
+        cell.setOnMouseClicked(this::handleMouseClick);
+        cell.getStyleClass().add("cell");
+
+        for (var i = 0; i < 2; i++) {
+            var knightView = new ImageView(knightImages[i]);
+            knightView.setFitHeight(35);
+            knightView.setFitWidth(35);
+            cell.getChildren().add(knightView);
+        }
+        return cell;
     }
 
     private void loadImages() {
@@ -52,31 +80,14 @@ public class GameController {
     private void handleMouseClick(MouseEvent event) {
         var source = (Node) event.getSource();
         var row = GridPane.getRowIndex(source);
-        if (row == null) {
-            row = 0;
-        }
         var col = GridPane.getColumnIndex(source);
-        if (col == null) {
-            col = 0;
-        }
         Logger.debug("Click on square ({}, {})", row, col);
-    }
-
-
-
-    public void handleClickOnCell(MouseEvent mouseEvent) {
-        int row = GridPane.getRowIndex((Node) mouseEvent.getSource());
-        int col = GridPane.getColumnIndex((Node) mouseEvent.getSource());
-        Logger.debug("Cell ({}, {}) is clicked.", row, col);
-
     }
 
     public void handleEndButton(ActionEvent actionEvent) throws IOException {
         String buttonText = ((Button) actionEvent.getSource()).getText();
         Logger.debug("{} is pressed.", buttonText);
-        if (buttonText.equals("End")) {
-            Logger.info("The game ends.");
-        }
+        Logger.info("The game ends.");
         Logger.info("Display high score scene.");
         fxmlLoader.setLocation(getClass().getResource("/fxml/highscores.fxml"));
         Parent root = fxmlLoader.load();

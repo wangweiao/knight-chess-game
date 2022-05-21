@@ -1,5 +1,7 @@
 package chessgame.javafx;
 
+import chessgame.GameApplication;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -23,5 +25,13 @@ public class HighScoreController {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    public void handleExitButton(ActionEvent actionEvent) {
+        Logger.debug("{} is pressed.", ((Button) actionEvent.getSource()).getText());
+        Logger.info("Application terminated.");
+        GameApplication.audioClip.stop();
+        Platform.exit();
+        System.exit(0);
     }
 }
