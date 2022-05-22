@@ -111,14 +111,11 @@ public class GameController {
             for (int j = 0; j < 8; j++) {
                 ImageView view = (ImageView) grid.getChildren().get(i * 8 + j);
                 view.getStyleClass().add("image");
-                if (state.getBoard()[i][j] == 'b') {
-                    view.setImage(knightImages[0]);
-                } else if (state.getBoard()[i][j] == 'w') {
-                    view.setImage(knightImages[1]);
-                } else if (state.getBoard()[i][j] == 't') {
-                    view.setImage(knightImages[2]);
-                } else {
-                    view.setImage(null);
+                switch (state.getBoard()[i][j]) {
+                    case 'b' -> view.setImage(knightImages[0]);
+                    case 'w' -> view.setImage(knightImages[1]);
+                    case 't' -> view.setImage(knightImages[2]);
+                    default -> view.setImage(null);
                 }
             }
         }
