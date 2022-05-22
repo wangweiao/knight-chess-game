@@ -1,6 +1,6 @@
-package chessgame.javafx;
+package chessgame.javafx.controller;
 
-import chessgame.GameApplication;
+import chessgame.javafx.GameApplication;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;

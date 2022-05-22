@@ -1,3 +1,9 @@
-.cell:hover {
+.white-cell {
+    -fx-background-color: white;
+    -fx-view-order: 1;
+}
+
+.grey-cell {
     -fx-background-color: lightgray;
+    -fx-view-order: 1;
 }

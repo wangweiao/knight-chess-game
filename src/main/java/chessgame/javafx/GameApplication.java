@@ -1,4 +1,4 @@
-package chessgame;
+package chessgame.javafx;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +17,7 @@ public class GameApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Logger.info("The application has started.");
-        audioClip = new AudioClip(getClass().getResource("/media/music.wav").toString());
+        audioClip = new AudioClip(getClass().getResource("/music/music.wav").toString());
         audioClip.setCycleCount(INDEFINITE);
         audioClip.play();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/opening.fxml"));

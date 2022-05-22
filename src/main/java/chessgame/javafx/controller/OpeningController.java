@@ -1,4 +1,4 @@
-package chessgame.javafx;
+package chessgame.javafx.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import javax.inject.Inject;
 import java.io.IOException;
 
 import org.tinylog.Logger;
