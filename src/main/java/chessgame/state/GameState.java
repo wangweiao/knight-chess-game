@@ -89,4 +89,20 @@ public class GameState {
         }
         return true;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if ((o instanceof GameState gameState) && board[i][j] != gameState.getBoard()[i][j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 }
