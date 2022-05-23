@@ -62,6 +62,7 @@ public class HighScoreController {
         highScoreTable.setItems(observableResult);
     }
 
+    @FXML
     private void handleRestartButton(ActionEvent actionEvent) throws IOException {
         Logger.debug("{} is pressed.", ((Button) actionEvent.getSource()).getText());
         Logger.info("Loading opening scene.");
@@ -72,6 +73,7 @@ public class HighScoreController {
         stage.show();
     }
 
+    @FXML
     private void handleExitButton(ActionEvent actionEvent) {
         Logger.debug("{} is pressed.", ((Button) actionEvent.getSource()).getText());
         Logger.info("Application terminated.");

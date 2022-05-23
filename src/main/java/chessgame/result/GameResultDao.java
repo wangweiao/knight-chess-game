@@ -14,7 +14,7 @@ import java.util.List;
 public interface GameResultDao {
 
     /**
-     * Specifies constraints on the attributes of the table.
+     * Creates a table and specifies some constraints on the attributes of the table.
      */
     @SqlUpdate("""
         create table gameresult (
@@ -26,10 +26,6 @@ public interface GameResultDao {
         )
         """
     )
-
-    /**
-     * Creates a table for storing game results.
-     */
     void createTable();
 
     /**

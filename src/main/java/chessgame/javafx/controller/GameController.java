@@ -226,8 +226,8 @@ public class GameController {
             }
             messageLabel.setText(winnerName + " Won!");
             stopwatch.stop();
+            writeDataToDatabase();
         }
-        writeDataToDatabase();
     }
 
     private void writeDataToDatabase() {
@@ -236,6 +236,7 @@ public class GameController {
         jdbi.installPlugin(new SqlObjectPlugin());
         List<GameResult> gameResults = jdbi.withExtension(GameResultDao.class, dao -> {
             int lastGameID = dao.getLastGameID();
+//            int lastGameID = 0;
             dao.insertGameResult(new GameResult(lastGameID + 1,
                     winnerName,
                     steps.get(),

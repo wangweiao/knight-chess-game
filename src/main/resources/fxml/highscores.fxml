@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chessgame.javafx.controller.HighScoreController">
+<Pane fx:id="controller" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chessgame.javafx.controller.HighScoreController">
    <children>
       <TableView fx:id="highScoreTable" editable="true" layoutX="25.0" layoutY="74.0" prefHeight="550.0" prefWidth="650.0">
         <columns>
@@ -22,7 +22,7 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <Button layoutX="216.0" layoutY="635.0" mnemonicParsing="false" onAction="#handleRestartButton" prefHeight="51.0" prefWidth="122.0" text="Restart">
+      <Button fx:id="restartButton" layoutX="216.0" layoutY="635.0" mnemonicParsing="false" onAction="#handleRestartButton" prefHeight="51.0" prefWidth="122.0" text="Restart">
          <font>
             <Font size="17.0" />
          </font></Button>
