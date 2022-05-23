@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -38,7 +37,8 @@ public class OpeningController {
         } else {
             fxmlLoader.setLocation(getClass().getResource("/fxml/game.fxml"));
             Parent root = fxmlLoader.load();
-            fxmlLoader.<GameController>getController().setPlayerName(firstPlayerNameTextField.getText());
+            fxmlLoader.<GameController>getController().setFirstPlayerName(firstPlayerNameTextField.getText());
+            fxmlLoader.<GameController>getController().setSecondPlayerName(secondPlayerNameTextField.getText());
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/css/ui.css").toExternalForm());

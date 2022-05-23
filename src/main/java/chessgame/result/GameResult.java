@@ -1,18 +1,24 @@
 package chessgame.result;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class GameResult {
 
-    private String name;
+    private int id;
 
-    private int step;
+    private String playerName;
 
-    private Long duration;
+    private int stepsByPlayer;
 
-    private String time;
+    private int duration;
+
+    private String gameEndTime;
 
 }

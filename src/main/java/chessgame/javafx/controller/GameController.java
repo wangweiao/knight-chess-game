@@ -1,6 +1,7 @@
 package chessgame.javafx.controller;
 
 import chessgame.result.GameResult;
+import chessgame.result.GameResultDao;
 import chessgame.state.GameState;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -20,20 +21,17 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.tinylog.Logger;
 import util.Stopwatch;
 
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -41,7 +39,11 @@ public class GameController {
 
     private FXMLLoader fxmlLoader = new FXMLLoader();
 
-    private String playerName;
+    private String firstPlayerName;
+
+    private String secondPlayerName;
+
+    private String winnerName;
 
     private Image[] knightImages;
 
@@ -50,6 +52,7 @@ public class GameController {
     private IntegerProperty steps = new SimpleIntegerProperty();
 
     private int originalRow;
+
     private int originalCol;
 
     private Instant startTime;
@@ -83,12 +86,16 @@ public class GameController {
 
     private GameState state = new GameState();
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
+    public void setFirstPlayerName(String firstPlayerName) {
+        this.firstPlayerName = firstPlayerName;
+    }
+
+    public void setSecondPlayerName(String secondPlayerName) {
+        this.secondPlayerName = secondPlayerName;
     }
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         Logger.info("Board initialization initiated.");
         state = new GameState();
         stopwatchLabel.textProperty().bind(stopwatch.hhmmssProperty());
@@ -207,24 +214,32 @@ public class GameController {
 
     private void handleSolved() {
 //        if (state.isAllFilled()) {
-        if (steps.get() == 4) {
-            Logger.info("Player {} has won the game in {} steps.", playerName, steps.get() / 2);
-            messageLabel.setText(playerName + " Won!");
+        if (steps.get() == 3) {
+            Logger.info("Player {} has won the game in {} steps.", winnerName, steps.get() / 2);
+            if (steps.get() % 2 == 0) {
+                winnerName = secondPlayerName;
+            } else {
+                winnerName = firstPlayerName;
+            }
+            messageLabel.setText(winnerName + " Won!");
             stopwatch.stop();
-            GameResult gameResult = createGameResult();
-
-
-
         }
+        writeDataToDatabase();
     }
 
-    private GameResult createGameResult() {
-        return GameResult.builder()
-                .name(playerName)
-                .step(steps.get())
-                .duration(Duration.between(startTime, Instant.now()).getSeconds())
-                .time(ZonedDateTime.now().format(dateTimeFormatter))
-                .build();
+    private void writeDataToDatabase() {
+        Logger.info("Start to write data to a database.");
+        Jdbi jdbi = Jdbi.create("jdbc:oracle:thin:@oracle.inf.unideb.hu:1521:ora19c", "U_H104TX", "kalvinter");
+        jdbi.installPlugin(new SqlObjectPlugin());
+        List<GameResult> gameResults = jdbi.withExtension(GameResultDao.class, dao -> {
+            int lastGameID = dao.getLastGameID();
+            dao.insertGameResult(new GameResult(lastGameID + 1,
+                    winnerName,
+                    steps.get(),
+                    (int) Duration.between(startTime, Instant.now()).getSeconds(),
+                    ZonedDateTime.now().format(dateTimeFormatter)));
+            return dao.listGameResults();
+        });
     }
 
     @FXML
