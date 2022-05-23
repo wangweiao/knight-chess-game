@@ -4,6 +4,9 @@ import org.tinylog.Logger;
 
 import java.util.Arrays;
 
+/**
+ * Class representing the state of the game.
+ */
 public class GameState {
 
     private static final char[][] INITIAL = {
@@ -24,14 +27,27 @@ public class GameState {
     private int blackKnightRow;
     private int blackKnightCol;
 
+    /**
+     * Returns the {@code board} of the game.
+     *
+     * @return the {@code board} of the game
+     */
     public char[][] getBoard() {
         return board;
     }
 
+    /**
+     * Provides a default constructor for the class to invoke the parameterized one.
+     */
     public GameState() {
         this(INITIAL);
     }
 
+    /**
+     * Provides a parameterized constructor for the game.
+     *
+     * @param initial the initial {@code board} of the game
+     */
     public GameState(char[][] initial) {
         setInitial(initial);
     }
@@ -49,6 +65,14 @@ public class GameState {
         }
     }
 
+    /**
+     * Checks whether the specified movement is valid or not.
+     *
+     * @param destinationRow the row for placing the picked piece
+     * @param destinationCol the column for placing the picked piece
+     * @param cell the char that is placed on the original cell
+     * @return the result about whether the specified movement is valid or not
+     */
     public boolean isValidMovement(int destinationRow, int destinationCol, char cell) {
         if (cell == 'w') {
             if ((Math.abs(whiteKnightRow - destinationRow) == 2 && Math.abs(whiteKnightCol - destinationCol) == 1) ||
@@ -64,6 +88,13 @@ public class GameState {
         return false;
     }
 
+    /**
+     * Performs the specified movement of the piece.
+     *
+     * @param destinationRow the row for placing the picked piece
+     * @param destinationCol the column for placing the picked piece
+     * @param cell the char that is placed on the original cell
+     */
     public void performMovement(int destinationRow, int destinationCol, char cell) {
         if (cell == 'w') {
             Logger.debug("White knight at ({}, {}) is moved to ({}, {}).", whiteKnightRow, whiteKnightCol, destinationRow, destinationCol);
@@ -80,6 +111,11 @@ public class GameState {
         }
     }
 
+    /**
+     * Checks if all the cells have been filled.
+     *
+     * @return the result about whether all the cells have been filled or not
+     */
     public boolean isAllFilled() {
         for(int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -90,6 +126,12 @@ public class GameState {
         return true;
     }
 
+    /**
+     * Checks whether the specified objects are the same or not.
+     *
+     * @param o the object to be compared
+     * @return the result about whether the specified objects are the same or not
+     */
     @Override
     public boolean equals(Object o) {
         if (o == this) {

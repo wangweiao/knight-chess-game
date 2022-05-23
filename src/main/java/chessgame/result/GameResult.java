@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * The basic data of the game result to be stored in the database.
+ */
 @Data
 @Builder
 @AllArgsConstructor

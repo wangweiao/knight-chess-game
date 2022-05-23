@@ -12,6 +12,9 @@ import javafx.util.Duration;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
+/**
+ * Provides utilities for displaying time in the application.
+ */
 public class Stopwatch {
 
     private LongProperty seconds = new SimpleLongProperty();

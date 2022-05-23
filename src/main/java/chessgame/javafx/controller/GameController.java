@@ -35,6 +35,9 @@ import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.stream.Stream;
 
+/**
+ * Controls the appearance and behaviours of the game scene.
+ */
 public class GameController {
 
     private FXMLLoader fxmlLoader = new FXMLLoader();

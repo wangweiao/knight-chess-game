@@ -12,10 +12,19 @@ import org.tinylog.Logger;
 
 import static javafx.scene.media.AudioClip.INDEFINITE;
 
+/**
+ * The Application class of the project.
+ */
 public class GameApplication extends Application {
 
     public static AudioClip audioClip;
 
+    /**
+     * The start method of the Application class.
+     *
+     * @param stage the stage for showing a scene
+     * @throws Exception declare exceptions that may occur during the execution of the program
+     */
     @Override
     public void start(Stage stage) throws Exception {
         Logger.info("The application has started.");

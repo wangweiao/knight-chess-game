@@ -15,6 +15,9 @@ import java.io.IOException;
 
 import org.tinylog.Logger;
 
+/**
+ * Controls the appearance and behaviours of the opening page.
+ */
 public class OpeningController {
 
     private FXMLLoader fxmlLoader = new FXMLLoader();

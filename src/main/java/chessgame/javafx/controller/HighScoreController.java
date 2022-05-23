@@ -25,6 +25,9 @@ import org.tinylog.Logger;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Controls the appearance and behaviours of the high score result scene.
+ */
 public class HighScoreController {
 
     private FXMLLoader fxmlLoader = new FXMLLoader();
