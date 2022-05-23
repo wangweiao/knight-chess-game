@@ -1,5 +1,7 @@
 package chessgame.javafx;
 
+import chessgame.javafx.controller.HighScoreController;
+import chessgame.javafx.controller.OpeningController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

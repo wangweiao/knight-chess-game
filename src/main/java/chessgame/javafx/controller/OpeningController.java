@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,6 +22,9 @@ public class OpeningController {
 
     @FXML
     private TextField firstPlayerNameTextField;
+
+    @FXML
+    private ImageView background;
 
     @FXML
     private TextField secondPlayerNameTextField;
@@ -38,7 +43,6 @@ public class OpeningController {
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/css/ui.css").toExternalForm());
             stage.setScene(scene);
-            fxmlLoader.<GameController>getController().initialization();
             stage.show();
             Logger.info("The user's name is set to {}, loading game scene", firstPlayerNameTextField.getText());
         }

@@ -1,5 +1,6 @@
 package chessgame.javafx.controller;
 
+import chessgame.result.GameResult;
 import chessgame.state.GameState;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -16,12 +17,24 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import org.tinylog.Logger;
 import util.Stopwatch;
 
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.time.Duration;
 import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class GameController {
@@ -41,6 +54,8 @@ public class GameController {
 
     private Instant startTime;
 
+    private boolean isBlackTurn;
+
     @FXML
     private Label stopwatchLabel;
 
@@ -50,7 +65,12 @@ public class GameController {
     @FXML
     private Label stepsLabel;
 
+    @FXML
+    private Circle circle;
+
     private Stopwatch stopwatch = new Stopwatch();
+
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG);
 
     @FXML
     private Button endButton;
@@ -67,15 +87,20 @@ public class GameController {
         this.playerName = playerName;
     }
 
-    public void initialization() {
+    @FXML
+    public void initialize() {
         Logger.info("Board initialization initiated.");
         state = new GameState();
         stopwatchLabel.textProperty().bind(stopwatch.hhmmssProperty());
         stopwatch.start();
+        startTime = Instant.now();
         stepsLabel.textProperty().bind(steps.asString());
+        chessSelected = false;
+        isBlackTurn = true;
         loadImages();
         populateGrid();
         displayGameState();
+        circle.setFill(Color.BLACK);
     }
 
     private void loadImages() {
@@ -141,11 +166,20 @@ public class GameController {
         char[][] board = state.getBoard();
         boolean isCellEmpty = board[row][col] != 'w' && board[row][col] != 'b' && board[row][col] != 't';
         if (!chessSelected && (board[row][col] == 'b' || board[row][col] == 'w')) {
-            Logger.debug("Chess ({}, {}) is picked", row, col);
+            if (isBlackTurn && board[row][col] != 'b') {
+                messageLabel.setText("Invalid operation!");
+                Logger.debug("The operation is invalid!");
+                return;
+            } else if (!isBlackTurn && board[row][col] != 'w') {
+                messageLabel.setText("Invalid operation!");
+                Logger.debug("The operation is invalid!");
+                return;
+            }
             originalRow = row;
             originalCol = col;
             chessSelected = true;
             messageLabel.setText("");
+            isBlackTurn = !isBlackTurn;
         } else if (state.isValidMovement(row, col, board[originalRow][originalCol]) && chessSelected && isCellEmpty) {
             Logger.debug("Destination ({}, {}) is selected.", row ,col);
             switchPosition(originalRow, originalCol, row, col);
@@ -153,15 +187,14 @@ public class GameController {
             steps.set(steps.get() + 1);
             chessSelected = false;
             messageLabel.setText("");
+            if (isBlackTurn) {
+                circle.setFill(Color.BLACK);
+            } else {
+                circle.setFill(Color.WHITE);
+            }
         } else {
-            Logger.debug("The movement is invalid!");
-            messageLabel.setText("The movement is invalid!");
-        }
-    }
-
-    private void handleSolved() {
-        if (state.isAllFilled()) {
-            Logger.info("Player {} has won the game in {} steps.", playerName, steps.get() / 2);
+            Logger.debug("The operation is invalid!");
+            messageLabel.setText("Invalid operation!");
         }
     }
 
@@ -170,6 +203,28 @@ public class GameController {
         ImageView destination = (ImageView) grid.getChildren().get(row * 8 + col);
         destination.setImage(original.getImage());
         original.setImage(knightImages[2]);
+    }
+
+    private void handleSolved() {
+//        if (state.isAllFilled()) {
+        if (steps.get() == 4) {
+            Logger.info("Player {} has won the game in {} steps.", playerName, steps.get() / 2);
+            messageLabel.setText(playerName + " Won!");
+            stopwatch.stop();
+            GameResult gameResult = createGameResult();
+
+
+
+        }
+    }
+
+    private GameResult createGameResult() {
+        return GameResult.builder()
+                .name(playerName)
+                .step(steps.get())
+                .duration(Duration.between(startTime, Instant.now()).getSeconds())
+                .time(ZonedDateTime.now().format(dateTimeFormatter))
+                .build();
     }
 
     @FXML
@@ -189,7 +244,7 @@ public class GameController {
     private void handleResetButton(ActionEvent event) {
         Logger.info("Initiating reset operation.");
         state = new GameState();
-        initialization();
+        initialize();
         stopwatch.stop();
         stopwatch.reset();
         stopwatch.start();

@@ -1,8 +1,10 @@
 package chessgame.javafx.controller;
 
 import chessgame.javafx.GameApplication;
+import chessgame.result.GameResult;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -16,6 +18,16 @@ import java.io.IOException;
 public class HighScoreController {
 
     private FXMLLoader fxmlLoader = new FXMLLoader();
+
+    @FXML
+    public void initialize() {
+        Logger.debug("Loading high score table.");
+
+    }
+
+    public void appendToList(GameResult gameResult) {
+
+    }
 
     public void handleRestartButton(ActionEvent actionEvent) throws IOException {
         Logger.debug("{} is pressed.", ((Button) actionEvent.getSource()).getText());
