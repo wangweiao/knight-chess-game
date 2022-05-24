@@ -216,8 +216,7 @@ public class GameController {
     }
 
     private void handleSolved() {
-//        if (state.isAllFilled()) {
-        if (steps.get() == 3) {
+        if (state.isAllFilled()) {
             Logger.info("Player {} has won the game in {} steps.", winnerName, steps.get() / 2);
             if (steps.get() % 2 == 0) {
                 winnerName = secondPlayerName;
