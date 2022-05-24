@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.tinylog.Logger;
+import org.tinylog.Supplier;
 import util.Stopwatch;
 
 import java.io.IOException;

@@ -60,6 +60,10 @@ public class HighScoreController {
         ObservableList<GameResult> observableResult = FXCollections.observableArrayList();
         observableResult.addAll(winnerResults);
         highScoreTable.setItems(observableResult);
+        List<GameResult> gameResults = jdbi.withExtension(GameResultDao.class, dao -> {
+            return dao.listGameResults();
+        });
+        gameResults.forEach(Logger::debug);
     }
 
     @FXML
