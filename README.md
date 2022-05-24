@@ -14,4 +14,4 @@ We have a chess board consisting of 8*8 cells, each of  which can have either a 
 
 1. When a new game is started the program must ask for the names of the players. 
 2. The program must store the result of the games and must maintain a high score table in which the top 5 players with the most wins are displayed.
-3. Data are stored in a relational database
+3. Data are stored in a relational database.
