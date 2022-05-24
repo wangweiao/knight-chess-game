@@ -85,4 +85,5 @@ public class HighScoreController {
         Platform.exit();
         System.exit(0);
     }
+
 }
