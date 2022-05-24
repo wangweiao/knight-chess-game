@@ -34,7 +34,8 @@ public class OpeningController {
     @FXML
     private Label errorLabel;
 
-    public void startAction(ActionEvent actionEvent) throws IOException {
+    @FXML
+    private void startAction(ActionEvent actionEvent) throws IOException {
         if (firstPlayerNameTextField.getText().isEmpty() || secondPlayerNameTextField.getText().isEmpty()) {
             errorLabel.setText("Please enter player names!");
         } else {

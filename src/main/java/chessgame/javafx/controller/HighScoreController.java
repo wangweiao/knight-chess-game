@@ -18,7 +18,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.jdbi.v3.core.Jdbi;
-import org.jdbi.v3.core.statement.Slf4JSqlLogger;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.tinylog.Logger;
 

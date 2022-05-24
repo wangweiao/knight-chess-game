@@ -24,7 +24,6 @@ import javafx.stage.Stage;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.tinylog.Logger;
-import org.tinylog.Supplier;
 import util.Stopwatch;
 
 import java.io.IOException;
@@ -177,35 +176,46 @@ public class GameController {
         char[][] board = state.getBoard();
         boolean isCellEmpty = board[row][col] != 'w' && board[row][col] != 'b' && board[row][col] != 't';
         if (!chessSelected && (board[row][col] == 'b' || board[row][col] == 'w')) {
-            if (isBlackTurn && board[row][col] != 'b') {
-                messageLabel.setText("Invalid operation!");
-                Logger.debug("The operation is invalid!");
-                return;
-            } else if (!isBlackTurn && board[row][col] != 'w') {
-                messageLabel.setText("Invalid operation!");
-                Logger.debug("The operation is invalid!");
-                return;
-            }
-            originalRow = row;
-            originalCol = col;
-            chessSelected = true;
-            messageLabel.setText("");
-            isBlackTurn = !isBlackTurn;
+            selectChessPiece(row, col);
         } else if (state.isValidMovement(row, col, board[originalRow][originalCol]) && chessSelected && isCellEmpty) {
-            Logger.debug("Destination ({}, {}) is selected.", row ,col);
-            switchPosition(originalRow, originalCol, row, col);
-            state.performMovement(row, col, board[originalRow][originalCol]);
-            steps.set(steps.get() + 1);
-            chessSelected = false;
-            messageLabel.setText("");
-            if (isBlackTurn) {
-                circle.setFill(Color.BLACK);
-            } else {
-                circle.setFill(Color.WHITE);
-            }
+            placeChessPiece(row, col);
         } else {
             Logger.debug("The operation is invalid!");
             messageLabel.setText("Invalid operation!");
+        }
+    }
+
+    private void selectChessPiece(int row, int col) {
+        char[][] board = state.getBoard();
+        if (isBlackTurn && board[row][col] != 'b') {
+            messageLabel.setText("Invalid operation!");
+            Logger.debug("The operation is invalid!");
+            return;
+        } else if (!isBlackTurn && board[row][col] != 'w') {
+            messageLabel.setText("Invalid operation!");
+            Logger.debug("The operation is invalid!");
+            return;
+        }
+        originalRow = row;
+        originalCol = col;
+        chessSelected = true;
+        messageLabel.setText("");
+        isBlackTurn = !isBlackTurn;
+        Logger.debug("Chess piece selected!");
+    }
+
+    private void placeChessPiece(int row, int col) {
+        char[][] board = state.getBoard();
+        Logger.debug("Destination ({}, {}) is selected.", row ,col);
+        switchPosition(originalRow, originalCol, row, col);
+        state.performMovement(row, col, board[originalRow][originalCol]);
+        steps.set(steps.get() + 1);
+        chessSelected = false;
+        messageLabel.setText("");
+        if (isBlackTurn) {
+            circle.setFill(Color.BLACK);
+        } else {
+            circle.setFill(Color.WHITE);
         }
     }
 

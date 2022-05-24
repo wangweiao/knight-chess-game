@@ -44,7 +44,7 @@ public class GameState {
     }
 
     /**
-     * Provides a parameterized constructor for the game.
+     * Provides a parameterized constructor for initializing the game.
      *
      * @param initial the initial {@code board} of the game
      */
