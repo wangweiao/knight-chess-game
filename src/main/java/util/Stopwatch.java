@@ -22,6 +22,9 @@ public class Stopwatch {
 
     private Timeline timeline;
 
+    /**
+     * Creates an instance of the {@code Stopwatch} class.
+     */
     public Stopwatch() {
         timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> seconds.set(seconds.get() + 1)),
                 new KeyFrame(Duration.seconds(1)));
@@ -29,22 +32,41 @@ public class Stopwatch {
         hhmmss.bind(Bindings.createStringBinding(() -> DurationFormatUtils.formatDuration(seconds.get() * 1000, "HH:mm:ss"), seconds));
     }
 
+    /**
+     * Returns the property of the previous lasting time.
+     *
+     * @return the property of the previous lasting time
+     */
     public LongProperty secondsProperty() {
         return seconds;
     }
 
+    /**
+     * Returns the property of the previous lasting time in the specified format.
+     *
+     * @return the property of the previous lasting time in the specified format
+     */
     public StringProperty hhmmssProperty() {
         return hhmmss;
     }
 
+    /**
+     * Starts the stopwatch.
+     */
     public void start() {
         timeline.play();
     }
 
+    /**
+     * Stops the stop watch.
+     */
     public void stop() {
         timeline.pause();
     }
 
+    /**
+     * Resets the stopwatch.
+     */
     public void reset() {
         if (timeline.getStatus() != Animation.Status.PAUSED) {
             throw new IllegalStateException();
@@ -52,6 +74,11 @@ public class Stopwatch {
         seconds.set(0);
     }
 
+    /**
+     * Returns the status of the stopwatch.
+     *
+     * @return the status of the stopwatch
+     */
     public Animation.Status getStatus() {
         return timeline.getStatus();
     }

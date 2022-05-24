@@ -17,6 +17,9 @@ import static javafx.scene.media.AudioClip.INDEFINITE;
  */
 public class GameApplication extends Application {
 
+    /**
+     * The background music audio clip.
+     */
     public static AudioClip audioClip;
 
     /**

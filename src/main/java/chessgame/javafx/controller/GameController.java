@@ -21,6 +21,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import lombok.Data;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.tinylog.Logger;
@@ -38,6 +39,7 @@ import java.util.stream.Stream;
 /**
  * Controls the appearance and behaviours of the game scene.
  */
+@Data
 public class GameController {
 
     private FXMLLoader fxmlLoader = new FXMLLoader();
@@ -88,14 +90,6 @@ public class GameController {
     private GridPane grid;
 
     private GameState state = new GameState();
-
-    public void setFirstPlayerName(String firstPlayerName) {
-        this.firstPlayerName = firstPlayerName;
-    }
-
-    public void setSecondPlayerName(String secondPlayerName) {
-        this.secondPlayerName = secondPlayerName;
-    }
 
     @FXML
     private void initialize() {
